@@ -1,6 +1,18 @@
 package forum.hub.api.domain.topicos;
 
+import jakarta.validation.constraints.NotBlank;
+
 public record DadosEnviarTopico(
-        String autor, String titulo, String mensagem, String curso
+        @NotBlank
+        String autor,
+
+        @NotBlank
+        String titulo,
+
+        @NotBlank
+        String mensagem,
+
+        @NotBlank
+        String curso
 ) {
 }
