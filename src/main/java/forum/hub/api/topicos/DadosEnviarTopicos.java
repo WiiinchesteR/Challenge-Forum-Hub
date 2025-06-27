@@ -1,8 +1,10 @@
-package forum.hub.api.domain.topicos;
+package forum.hub.api.topicos;
 
 import jakarta.validation.constraints.NotBlank;
 
-public record DadosEnviarTopico(
+import java.time.LocalDateTime;
+
+public record DadosEnviarTopicos(
         @NotBlank
         String autor,
 
@@ -13,6 +15,8 @@ public record DadosEnviarTopico(
         String mensagem,
 
         @NotBlank
-        String curso
+        String curso,
+
+        LocalDateTime data
 ) {
 }
