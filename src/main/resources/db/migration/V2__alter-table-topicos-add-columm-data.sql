@@ -1,1 +1,0 @@
-alter table topicos add data datetime;

@@ -1,4 +1,4 @@
-package forum.hub.api.infra;
+package forum.hub.api.infra.excecoes;
 
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.HttpStatus;
@@ -36,6 +36,5 @@ public class TratamentoDeErros {
             this(erro.getField(), erro.getDefaultMessage());
         }
     }
-
 
 }
