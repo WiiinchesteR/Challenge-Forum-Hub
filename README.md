@@ -64,16 +64,6 @@ Boas práticas REST
 
 Criação de endpoints protegidos e públicos
 
-## 🗂️ Organização do Projeto
 
-src/
- └── main/
-     ├── java/
-     │   └── forum.hub.api/
-     │       ├── controller
-     │       ├── domain (usuarios, topicos, respostas)
-     │       ├── infra (segurança, token, exceções)
-     │       └── ...
-     └── resources/
-         ├── application.properties
-         └── db/migration
+| [<img loading="lazy" src="https://avatars.githubusercontent.com/u/195828744?v=4" width=115><br><sub>Davi Moraes</sub>](https://github.com/WiiinchesteR)
+| :---: |
