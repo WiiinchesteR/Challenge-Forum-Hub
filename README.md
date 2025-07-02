@@ -33,7 +33,6 @@ Este projeto foi desenvolvido como parte do programa **Oracle Next Education (ON
   - Status automático: `NAO_RESPONDIDO` ou `RESPONDIDO`
 - 💡 CRUD de **respostas**
   - Apenas o autor pode atualizar ou deletar
-  - Respostas de um tópico numeradas localmente
 - 📈 Relatório: contagem de tópicos e respostas por usuário
 - ✅ Testes de endpoints com **Insomnia**
 - 🧪 Documentação interativa com **Swagger UI**
