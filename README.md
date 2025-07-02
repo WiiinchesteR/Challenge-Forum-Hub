@@ -41,8 +41,7 @@ Este projeto foi desenvolvido como parte do programa **Oracle Next Education (ON
 ---
 
 
-## 🧑‍💻 Autor
-Davi Moraes
+🧑‍💻 Autor Davi Moraes
 
 💼 Desenvolvedor Java | Backend
 
@@ -65,7 +64,7 @@ Boas práticas REST
 
 Criação de endpoints protegidos e públicos
 
-🗂️ Organização do Projeto
+## 🗂️ Organização do Projeto
 
 src/
  └── main/
@@ -78,6 +77,7 @@ src/
      └── resources/
          ├── application.properties
          └── db/migration
+
 
 | [<img loading="lazy" src="https://avatars.githubusercontent.com/u/195828744?v=4" width=115><br><sub>Davi Moraes</sub>](https://github.com/WiiinchesteR)
 | :---: |
