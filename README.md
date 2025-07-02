@@ -1,6 +1,6 @@
 # 📘 Fórum Hub API
 
-A **Fórum Hub API** é uma aplicação backend desenvolvida em Java com Spring Boot, que simula a estrutura de um fórum real. Permite o gerenciamento completo de usuários, tópicos e respostas, com autenticação segura via JWT, controle de acesso com Spring Security, documentação via Swagger e versionamento do banco com Flyway.
+O Challenge **Fórum Hub API** é uma aplicação backend desenvolvida em Java com Spring Boot, que simula a estrutura de um fórum real. Permite o gerenciamento completo de usuários, tópicos e respostas, com autenticação segura via JWT, controle de acesso com Spring Security, documentação via Swagger e versionamento do banco com Flyway.
 
 Este projeto foi desenvolvido como parte do programa **Oracle Next Education (ONE)** em parceria com a **Alura**, na **Turma G8**.
 
