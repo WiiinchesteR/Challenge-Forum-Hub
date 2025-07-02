@@ -27,7 +27,6 @@ Este projeto foi desenvolvido como parte do programa **Oracle Next Education (ON
 
 - 🔐 **Autenticação segura** com Spring Security + JWT
 - 👤 CRUD completo de **usuários**
-  - Atualização de nome com confirmação de senha
   - Atualização de senha
   - Exclusão do próprio perfil com confirmação de senha
 - 💬 CRUD de **tópicos** vinculados ao autor autenticado
