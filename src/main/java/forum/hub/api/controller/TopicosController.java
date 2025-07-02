@@ -34,8 +34,12 @@ public class TopicosController {
 
     @PostMapping
     @Transactional
-    public ResponseEntity enviarTopico(@RequestBody @Valid DadosEnviarTopicos dados, UriComponentsBuilder uriBuilder,
-                                       @AuthenticationPrincipal Usuario usuario) {
+    public ResponseEntity enviarTopico(
+            @RequestBody @Valid DadosEnviarTopicos dados,
+            UriComponentsBuilder uriBuilder,
+            @AuthenticationPrincipal Usuario usuario
+    ) {
+
         var topico = new Topico();
         var curso = cursoRepository.findByNome(String.valueOf(dados.curso()));
 
@@ -51,21 +55,25 @@ public class TopicosController {
         var dto = new DadosDetalhamentoTopicos(topico);
 
         return ResponseEntity.created(uri).body(dto);
+
     }
 
 
     @GetMapping
     public ResponseEntity<Page<DadosListagemTopicos>> listarTopicos(
-            @PageableDefault(size = 10, sort = {"titulo"}) Pageable paginacao
+            @PageableDefault(size = 10, sort = {"id"}) Pageable paginacao
     ) {
+
         var page = topicosRepository.findAll(paginacao).map(DadosListagemTopicos::new);
 
         return ResponseEntity.ok(page);
+
     }
 
 
     @GetMapping("/{id}")
     public ResponseEntity detalharTopico(@PathVariable Long id) {
+
         Optional<Topico> topico = topicosRepository.findById(id);
 
         if (topico.isPresent()) {
@@ -76,7 +84,7 @@ public class TopicosController {
 
             } else {
 
-                return ResponseEntity.ok(new DadosDetalhamentoTopicos(topico.get()));
+                return ResponseEntity.ok(new DadosDetalhadoRespostas(topico.get()));
 
             }
 
@@ -89,8 +97,12 @@ public class TopicosController {
 
     @PutMapping("/{id}")
     @Transactional
-    public ResponseEntity atualizarTopicos(@RequestBody DadosDetalhamentoTopicos dados, @PathVariable Long id,
-                                           @AuthenticationPrincipal Usuario usuario) {
+    public ResponseEntity atualizarTopicos(
+            @RequestBody DadosAtualizarTopicos dados,
+            @PathVariable Long id,
+            @AuthenticationPrincipal Usuario usuario
+    ) {
+
         Optional<Topico> topico = topicosRepository.findById(id);
 
         if (topico.isPresent()) {
@@ -102,6 +114,14 @@ public class TopicosController {
 
             topico.get().atualizarInformacoes(dados);
 
+            if (dados.curso() != null) {
+
+                var curso = cursoRepository.findByNome(dados.curso());
+
+                topico.get().setCurso(curso.get());
+
+            }
+
             return ResponseEntity.ok(new DadosDetalhamentoTopicos(topico.get()));
         }
 
@@ -112,7 +132,11 @@ public class TopicosController {
 
     @DeleteMapping("/{id}")
     @Transactional
-    public ResponseEntity excluirTopico(@PathVariable Long id, @AuthenticationPrincipal Usuario usuario) {
+    public ResponseEntity excluirTopico(
+            @PathVariable Long id,
+            @AuthenticationPrincipal Usuario usuario
+    ) {
+
         Optional<Topico> topico = topicosRepository.findById(id);
 
         if (topico.isPresent()) {
@@ -133,37 +157,87 @@ public class TopicosController {
     }
 
 
-    @PostMapping("/{id}/responder")
-    public ResponseEntity responderTopico(@PathVariable Long id, @RequestBody @Valid DadosResposta dados,
-                                          @AuthenticationPrincipal Usuario usuario, UriComponentsBuilder uriBuilder) {
+    @PutMapping("/{topicoId}/resposta/{respostaId}")
+    @Transactional
+    public ResponseEntity atualizarRespostas(
+            @PathVariable Long topicoId,
+            @PathVariable Long respostaId,
+            @RequestBody @Valid DadosAtualizarResposta dados,
+            @AuthenticationPrincipal Usuario usuario
+    ) {
 
-        Optional<Topico> topico = topicosRepository.findById(id);
+        Optional<Topico> topico = topicosRepository.findById(topicoId);
+        Optional<Resposta> resposta = respostaRepository.findById(respostaId);
 
-        if (topico.isPresent()) {
+        if (topico.isEmpty() || resposta.isEmpty()) {
 
-            if (topico.get().getAutor().getId().equals(usuario.getId())) {
+            return ResponseEntity.notFound().build();
 
-                return ResponseEntity.status(HttpStatus.FORBIDDEN)
-                        .body("Você não pode responder o seu próprio tópico.");
+        }
 
-            }
+        if (!resposta.get().getTopico().getId().equals(topico.get().getId())) {
 
-            Resposta resposta = new Resposta();
+            return ResponseEntity.status(HttpStatus.CONFLICT)
+                    .body("A resposta não pertence ao tópico informado.");
 
-            resposta.setMensagem(dados.mensagem());
-            resposta.setAutor(usuario);
-            resposta.setTopico(topico.get());
+        }
 
-            respostaRepository.save(resposta);
+        if (!resposta.get().getAutor().getId().equals(usuario.getId())) {
 
-            topico.get().setStatus(StatusResposta.RESPONDIDO);
+            return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                    .body("Você não tem permissão para atualizar esta resposta.");
+
+        }
+
+        resposta.get().setMensagem(dados.mensagem());
+
+        return ResponseEntity.ok("Resposta atualizada com sucesso.");
+
+    }
+
+
+    @DeleteMapping("/{topicoId}/resposta/{respostaId}")
+    @Transactional
+    public ResponseEntity excluirRespostaDoTopico(
+            @PathVariable Long topicoId,
+            @PathVariable Long respostaId,
+            @AuthenticationPrincipal Usuario usuario
+    ) {
+
+        Optional<Topico> topico = topicosRepository.findById(topicoId);
+        Optional<Resposta> resposta = respostaRepository.findById(respostaId);
+
+        if (topico.isEmpty() || resposta.isEmpty()) {
+
+            return ResponseEntity.notFound().build();
+
+        }
+
+        if (!resposta.get().getTopico().getId().equals(topico.get().getId())) {
+
+            return ResponseEntity.status(HttpStatus.CONFLICT)
+                    .body("A resposta não pertence ao tópico informado.");
+
+        }
+
+        if (!resposta.get().getAutor().getId().equals(usuario.getId())) {
+
+            return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                    .body("Você não tem permissão para excluir esta resposta.");
+
+        }
+
+        respostaRepository.deleteById(respostaId);
+
+        if (respostaRepository.findAllByTopicoId(topicoId).isEmpty()) {
+
+            topico.get().setStatus(StatusResposta.NAO_RESPONDIDO);
 
             topicosRepository.save(topico.get());
 
-            return ResponseEntity.status(HttpStatus.CREATED).body("Resposta registrada com sucesso.");
         }
 
-        return ResponseEntity.notFound().build();
+        return ResponseEntity.ok("Resposta excluida com sucesso.");
 
     }
 

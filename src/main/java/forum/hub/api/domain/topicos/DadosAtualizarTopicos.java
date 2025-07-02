@@ -5,6 +5,6 @@ import forum.hub.api.domain.curso.Curso;
 public record DadosAtualizarTopicos(
         String titulo,
         String mensagem,
-        Curso curso
+        String curso
 ) {
 }

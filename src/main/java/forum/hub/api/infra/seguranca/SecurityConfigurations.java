@@ -31,6 +31,8 @@ public class SecurityConfigurations {
                 )
                 .authorizeHttpRequests(req -> {
                     req.requestMatchers("/login").permitAll();
+                    req.requestMatchers("/usuario").permitAll();
+                    req.requestMatchers("/swagger-ui.html", "swagger-ui/**", "/v3/api-docs/**").permitAll();
                     req.anyRequest().authenticated();
                 })
                 .exceptionHandling(ex -> ex

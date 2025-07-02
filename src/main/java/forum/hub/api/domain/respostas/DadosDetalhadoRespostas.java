@@ -1,6 +1,6 @@
 package forum.hub.api.domain.respostas;
 
-import forum.hub.api.domain.curso.Curso;
+import forum.hub.api.domain.curso.DadosCurso;
 import forum.hub.api.domain.topicos.Topico;
 
 import java.util.List;
@@ -11,7 +11,7 @@ public record DadosDetalhadoRespostas(
         String titulo,
         String mensagem,
         String nomeAutor,
-        Curso curso,
+        DadosCurso curso,
         StatusResposta status,
         List<DadosListagemRespostas> respostas
 ) {
@@ -22,7 +22,7 @@ public record DadosDetalhadoRespostas(
                 topico.getTitulo(),
                 topico.getMensagem(),
                 topico.getAutor().getNome(),
-                topico.getCurso(),
+                new DadosCurso(topico.getCurso()),
                 topico.getStatus(),
                 topico.getRespostas().stream().map(DadosListagemRespostas::new).toList()
         );

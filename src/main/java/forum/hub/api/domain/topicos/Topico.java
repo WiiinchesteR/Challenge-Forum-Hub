@@ -44,16 +44,13 @@ public class Topico {
     @OneToMany(mappedBy = "topico", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Resposta> respostas = new ArrayList<>();
 
-    public void atualizarInformacoes(DadosDetalhamentoTopicos dados) {
+    public void atualizarInformacoes(DadosAtualizarTopicos dados) {
 
         if (dados.titulo() != null) {
             this.titulo = dados.titulo();
         }
         if (dados.mensagem() != null) {
             this.mensagem = (dados.mensagem());
-        }
-        if (dados.curso() != null) {
-            this.curso = (dados.curso());
         }
     }
 }
