@@ -40,11 +40,8 @@ Este projeto foi desenvolvido como parte do programa **Oracle Next Education (ON
 
 ---
 
-## 🧪 Testes com Insomnia
 
-Todos os endpoints foram testados utilizando o Insomnia. Você pode importar a collection manualmente ou testar via Swagger.
-
-🧑‍💻 Autor
+## 🧑‍💻 Autor
 Davi Moraes
 
 💼 Desenvolvedor Java | Backend
